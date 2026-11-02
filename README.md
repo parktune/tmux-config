@@ -21,7 +21,27 @@ set -g mouse on
 
 ## 새 PC에서 설치
 
-먼저 Git과 tmux를 설치합니다. WSL에서는 Windows PowerShell이 아닌 WSL 셸에서 실행하세요.
+아래 명령 한 번으로 설치·설정·정리를 마칩니다.
+WSL에서는 Windows PowerShell이 아닌 WSL 셸에서 실행하세요. `curl`이 필요합니다.
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/parktune/tmux-config/main/bootstrap.sh | sh
+```
+
+`bootstrap.sh`는 다음 순서로 동작합니다.
+
+1. tmux가 이미 설치되어 있으면 그대로 사용합니다. 없을 때만 설치합니다.
+2. Git이 없으면 설치하고, 임시 디렉터리에 저장소를 받습니다.
+3. 기존 설정을 백업하고 tmux 설정을 적용합니다.
+4. 받은 Git 저장소와 임시 디렉터리를 삭제합니다. 실패·중단 시에도 임시 파일을 정리합니다.
+
+설정 파일과 기존 설정 백업만 남습니다. 재적용도 같은 명령을 실행하면 됩니다.
+패키지 자동 설치는 apt-get, Homebrew, dnf, pacman을 지원하며,
+필요한 경우 sudo 암호를 요청합니다. macOS는 Homebrew가 먼저 설치되어 있어야 합니다.
+
+## 수동 설치
+
+저장소를 직접 보관하며 관리하려면 Git과 tmux를 먼저 설치하세요.
 
 Ubuntu/Debian/WSL:
 
@@ -59,7 +79,8 @@ git pull --ff-only
 sh install.sh
 ```
 
-이 스크립트는 tmux 패키지 자체를 자동 설치하지 않습니다.
+`install.sh`는 설정 적용만 담당하고, `bootstrap.sh`가 필요한 패키지 설치와
+임시 저장소 정리를 담당합니다. 수동으로 받은 저장소는 직접 관리합니다.
 
 ## AI에게 설치 요청
 
@@ -67,6 +88,7 @@ sh install.sh
 
 > https://github.com/parktune/tmux-config 를 읽고 README대로 내 tmux 설정을 적용해줘.
 > 기존 설정은 백업하고, 마우스 클릭 pane 이동과 휠 스크롤이 켜졌는지 확인해줘.
+> tmux가 이미 있으면 설정만 적용하고, 설치에 사용한 임시 저장소는 삭제해줘.
 
 ## 확인과 복원
 
